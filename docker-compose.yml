@@ -1,0 +1,22 @@
+version: "3.8"
+
+volumes:
+  keiry-sqlite3-db:
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # USER_ID, GROUP_IDは.envに指定する
+      args:
+        USER_ID: ${USER_ID:-0}
+        GROUP_ID: ${GROUP_ID:-0}
+    image: keiry-tauri
+    container_name: keiry-tauri
+    ports:
+      - "8000:8000"
+    working_dir: /home/project/keiry
+    volumes:
+      - ./keiry:/home/project/keiry
+      - keiry-sqlite3-db:/var/lib/sqlite3
